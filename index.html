@@ -3,72 +3,228 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Ciberseguridad</title>
+    <title>CiberSeguridad - Protégete en el Mundo Digital</title>
     <link rel="stylesheet" href="styles.css">
 </head>
 <body>
-    <header>
-        <nav>
-            <div class="logo">🔒 CIBERSEGURIDAD</div>
+    <!-- HTML -->
+    <header class="header">
+        <nav class="nav">
+            <div class="logo">🔒 CiberSeguridad</div>
             <ul class="nav-links">
                 <li><a href="#inicio">Inicio</a></li>
-                <li><a href="#virus">Virus</a></li>
-                <li><a href="#seguridad">Seguridad</a></li>
+                <li><a href="#amenazas">Amenazas</a></li>
+                <li><a href="#proteccion">Protección</a></li>
+                <li><a href="#ejercicios">Ejercicios</a></li>
                 <li><a href="#recursos">Recursos</a></li>
-                <li><a href="#contacto">Contacto</a></li>
+                <li><a href="#consejos">Tips</a></li>
             </ul>
         </nav>
     </header>
 
-    <section id="inicio" class="hero">
-        <h1>Protegé tu vida digital</h1>
-        <p>Aprendé de forma simple cómo cuidarte de virus, estafas y amenazas en internet.</p>
-    </section>
+    <main class="main">
+        <!-- Sección de Inicio -->
+        <section id="inicio" class="hero">
+            <h1>🛡️ Tu Seguridad Digital Importa</h1>
+            <p>Aprende a protegerte en el mundo digital de forma simple y efectiva. 
+               En la era de la información, tu seguridad está en tus manos.</p>
+            <a href="#amenazas" class="btn">Comenzar Aprendizaje</a>
+        </section>
 
-    <section id="virus" class="content">
-        <h2>🦠 Virus Informáticos</h2>
-        <p>Los virus pueden dañar tu dispositivo o robar tu información. Evitalos con un buen antivirus, no descargues archivos sospechosos y mantené tu software actualizado.</p>
-    </section>
-
-    <section id="seguridad" class="content">
-        <h2>🛡️ Formas de Seguridad</h2>
-        <ul>
-            <li>✅ Usá contraseñas seguras y diferentes en cada cuenta.</li>
-            <li>✅ Activá la verificación en dos pasos.</li>
-            <li>✅ No abras enlaces sospechosos.</li>
-            <li>✅ Mantené actualizado tu dispositivo.</li>
-        </ul>
-    </section>
-
-    <section id="recursos" class="content">
-        <h2>📚 Recursos Útiles</h2>
-        <p>Algunas herramientas gratuitas recomendadas:</p>
-        <ul>
-            <li><a href="https://www.avast.com" target="_blank">Avast Antivirus</a></li>
-            <li><a href="https://bitwarden.com" target="_blank">Bitwarden - Gestor de Contraseñas</a></li>
-            <li><a href="https://www.incibe.es" target="_blank">INCIBE - Seguridad en Internet</a></li>
-        </ul>
-    </section>
-
-    <section id="contacto" class="content">
-        <h2>📩 Contacto</h2>
-        <form id="contactForm">
-            <div>
-                <label for="email">Email:</label>
-                <input type="email" id="email" name="email" required>
+        <!-- Sección de Virus y Amenazas -->
+        <section id="amenazas" class="section">
+            <h2>🦠 Virus y Amenazas Comunes</h2>
+            <div class="cards-grid">
+                <div class="card fade-in">
+                    <div class="security-icon">🦠</div>
+                    <h3>Virus y Malware</h3>
+                    <p>Software malicioso que infecta tu dispositivo. Puede ralentizar tu computadora, robar información o dañar archivos. Ejemplo: descargas de sitios no confiables.</p>
+                </div>
+                
+                <div class="card fade-in">
+                    <div class="security-icon">🎣</div>
+                    <h3>Phishing</h3>
+                    <p>Emails o mensajes falsos que imitan empresas legítimas para robar tus datos. Ejemplo: "Tu cuenta de banco será cerrada, haz clic aquí".</p>
+                </div>
+                
+                <div class="card fade-in">
+                    <div class="security-icon">🔓</div>
+                    <h3>Ransomware</h3>
+                    <p>Secuestra tus archivos y pide dinero para liberarlos. Prevención: copias de seguridad regulares y no abrir archivos sospechosos.</p>
+                </div>
+                
+                <div class="card fade-in">
+                    <div class="security-icon">👥</div>
+                    <h3>Ingeniería Social</h3>
+                    <p>Manipulan psicológicamente para obtener información. Ejemplo: llamadas falsas de "soporte técnico" pidiendo contraseñas.</p>
+                </div>
             </div>
-            <div>
-                <label for="message">Mensaje:</label>
-                <textarea id="message" name="message" rows="4" required></textarea>
-            </div>
-            <button type="submit">Enviar</button>
-        </form>
-        <p id="formMessage"></p>
-    </section>
+        </section>
 
-    <footer>
-        <p>🌐 Proyecto educativo de Ciberseguridad - 2025</p>
-    </footer>
+        <!-- Sección de Protección -->
+        <section id="proteccion" class="section">
+            <h2>🛡️ Cómo Protegernos</h2>
+            <div class="cards-grid">
+                <div class="card fade-in">
+                    <div class="security-icon">🔑</div>
+                    <h3>Contraseñas Seguras</h3>
+                    <p><strong>Reglas de oro:</strong><br>
+                    • Mínimo 12 caracteres<br>
+                    • Combina letras, números y símbolos<br>
+                    • Una contraseña única por cuenta<br>
+                    • Usa un gestor de contraseñas</p>
+                </div>
+                
+                <div class="card fade-in">
+                    <div class="security-icon">🔄</div>
+                    <h3>Actualizaciones</h3>
+                    <p><strong>Mantén todo actualizado:</strong><br>
+                    • Sistema operativo<br>
+                    • Navegadores web<br>
+                    • Aplicaciones y programas<br>
+                    • Antivirus</p>
+                </div>
+                
+                <div class="card fade-in">
+                    <div class="security-icon">🌐</div>
+                    <h3>Navegación Segura</h3>
+                    <p><strong>Tips importantes:</strong><br>
+                    • Verifica URLs (https://)<br>
+                    • No descargues de sitios sospechosos<br>
+                    • Usa navegación privada para datos sensibles<br>
+                    • Desconfía de ofertas "demasiado buenas"</p>
+                </div>
+                
+                <div class="card fade-in">
+                    <div class="security-icon">📱</div>
+                    <h3>Privacidad en Redes</h3>
+                    <p><strong>Protege tu información:</strong><br>
+                    • Configura perfiles privados<br>
+                    • No compartas datos personales<br>
+                    • Revisa configuraciones de privacidad<br>
+                    • Piensa antes de publicar</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección de Ejercicios Interactivos -->
+        <section id="ejercicios" class="section">
+            <h2>🎮 Ejercicios Interactivos</h2>
+            
+            <!-- Quiz de Phishing -->
+            <div class="quiz-container">
+                <h3>🎣 Detecta el Mensaje Falso</h3>
+                <p class="quiz-question">¿Cuál de estos emails es probablemente phishing?</p>
+                <div class="quiz-options" id="phishing-quiz">
+                    <div class="quiz-option" data-answer="correct">
+                        "¡URGENTE! Tu cuenta será suspendida. Haz clic AQUÍ para verificar ahora: bit.ly/verificar123"
+                    </div>
+                    <div class="quiz-option" data-answer="incorrect">
+                        "Hola Juan, te envío el informe que pediste. Saludos, María (desde tu empresa conocida)"
+                    </div>
+                    <div class="quiz-option" data-answer="incorrect">
+                        "Recordatorio: Tu cita médica es mañana a las 10:00 AM. Dr. López."
+                    </div>
+                </div>
+                <div class="quiz-result" id="phishing-result"></div>
+            </div>
+
+            <!-- Verificador de contraseñas -->
+            <div class="password-container">
+                <h3>🔑 Evaluador de Contraseñas</h3>
+                <p>Escribe una contraseña y te diremos qué tan segura es:</p>
+                <input type="password" class="password-input" id="password-input" placeholder="Escribe tu contraseña aquí...">
+                <div class="strength-meter" id="strength-meter"></div>
+                <div id="password-feedback"></div>
+            </div>
+        </section>
+
+        <!-- Sección de Recursos -->
+        <section id="recursos" class="section">
+            <h2>📚 Recursos y Herramientas</h2>
+            <div class="resources-list">
+                <div class="resource-item">
+                    <h4>🛡️ Antivirus Gratuitos</h4>
+                    <p>• Avast Free Antivirus<br>
+                    • AVG Antivirus Free<br>
+                    • Windows Defender (incluido en Windows)<br>
+                    • Bitdefender Antivirus Free</p>
+                </div>
+                
+                <div class="resource-item">
+                    <h4>🔐 Gestores de Contraseñas</h4>
+                    <p>• Bitwarden (gratuito)<br>
+                    • LastPass (versión gratuita)<br>
+                    • 1Password<br>
+                    • KeePass (código abierto)</p>
+                </div>
+                
+                <div class="resource-item">
+                    <h4>📖 Sitios Educativos</h4>
+                    <p>• Stay Safe Online<br>
+                    • KnowBe4 Security Awareness<br>
+                    • NIST Cybersecurity Framework<br>
+                    • Cybersecurity & Infrastructure Security Agency (CISA)</p>
+                </div>
+                
+                <div class="resource-item">
+                    <h4>🔍 Verificadores de Seguridad</h4>
+                    <p>• VirusTotal (analizar archivos)<br>
+                    • Have I Been Pwned (filtraciones de datos)<br>
+                    • SSL Server Test<br>
+                    • Password Strength Checker</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Sección de Consejos Rápidos -->
+        <section id="consejos" class="section">
+            <h2>💡 Consejos Rápidos</h2>
+            <div class="tips-grid">
+                <div class="tip-button" onclick="toggleTip('tip1')">
+                    <h3>🔐 Autenticación 2FA</h3>
+                    <div class="tip-content" id="tip1">
+                        Activa la autenticación de dos factores en todas tus cuentas importantes. Añade una capa extra de seguridad que hace casi imposible que alguien entre a tu cuenta incluso si tiene tu contraseña.
+                    </div>
+                </div>
+                
+                <div class="tip-button" onclick="toggleTip('tip2')">
+                    <h3>📧 Emails Sospechosos</h3>
+                    <div class="tip-content" id="tip2">
+                        Nunca hagas clic en enlaces de emails inesperados. Si recibes un email "urgente" de un banco o servicio, ve directamente a su sitio web oficial en lugar de usar el enlace del email.
+                    </div>
+                </div>
+                
+                <div class="tip-button" onclick="toggleTip('tip3')">
+                    <h3>💾 Copias de Seguridad</h3>
+                    <div class="tip-content" id="tip3">
+                        Haz copias de seguridad regulares de tus archivos importantes. Regla 3-2-1: 3 copias, 2 medios diferentes, 1 copia fuera de casa. Así estarás protegido contra ransomware y fallos de hardware.
+                    </div>
+                </div>
+                
+                <div class="tip-button" onclick="toggleTip('tip4')">
+                    <h3>🌐 WiFi Público</h3>
+                    <div class="tip-content" id="tip4">
+                        Evita realizar operaciones bancarias o ingresar información sensible en WiFi público. Si debes hacerlo, usa una VPN confiable para cifrar tu conexión.
+                    </div>
+                </div>
+                
+                <div class="tip-button" onclick="toggleTip('tip5')">
+                    <h3>📱 Apps y Permisos</h3>
+                    <div class="tip-content" id="tip5">
+                        Revisa los permisos de las apps antes de instalarlas. Una app de linterna no necesita acceso a tus contactos. Descarga apps solo de tiendas oficiales como Google Play o App Store.
+                    </div>
+                </div>
+                
+                <div class="tip-button" onclick="toggleTip('tip6')">
+                    <h3>🔍 Verificar URLs</h3>
+                    <div class="tip-content" id="tip6">
+                        Antes de ingresar datos personales, verifica que la URL comience con "https://" y tenga el candado verde. Desconfía de URLs acortadas (bit.ly, tinyurl) en contextos importantes.
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
 
     <script src="script.js"></script>
 </body>
