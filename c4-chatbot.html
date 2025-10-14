@@ -1,0 +1,683 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>C4 Chatbot - Asistente de Ciberseguridad</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Rajdhani:wght@400;500;600;700&display=swap');
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Rajdhani', sans-serif;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .chat-container {
+            width: 100%;
+            max-width: 500px;
+            height: 700px;
+            background: white;
+            border-radius: 20px;
+            box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+            display: flex;
+            flex-direction: column;
+            overflow: hidden;
+        }
+
+        .chat-header {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            padding: 20px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .avatar {
+            width: 50px;
+            height: 50px;
+            background: white;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 30px;
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        .header-info h2 {
+            margin: 0;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .header-info p {
+            margin: 0;
+            font-size: 0.9rem;
+            opacity: 0.9;
+        }
+
+        .chat-messages {
+            flex: 1;
+            padding: 20px;
+            overflow-y: auto;
+            background: #f5f5f5;
+        }
+
+        .message {
+            margin-bottom: 15px;
+            display: flex;
+            gap: 10px;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from {
+                opacity: 0;
+                transform: translateY(10px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .message.bot {
+            justify-content: flex-start;
+        }
+
+        .message.user {
+            justify-content: flex-end;
+        }
+
+        .message-avatar {
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 20px;
+            flex-shrink: 0;
+        }
+
+        .message.bot .message-avatar {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+        }
+
+        .message.user .message-avatar {
+            background: #e0e0e0;
+        }
+
+        .message-content {
+            max-width: 70%;
+            padding: 12px 16px;
+            border-radius: 18px;
+            line-height: 1.5;
+        }
+
+        .message.bot .message-content {
+            background: white;
+            color: #333;
+            border-bottom-left-radius: 4px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .message.user .message-content {
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            color: white;
+            border-bottom-right-radius: 4px;
+        }
+
+        .typing-indicator {
+            display: none;
+            padding: 12px 16px;
+            background: white;
+            border-radius: 18px;
+            width: fit-content;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+        }
+
+        .typing-indicator.active {
+            display: block;
+        }
+
+        .typing-dots {
+            display: flex;
+            gap: 4px;
+        }
+
+        .typing-dots span {
+            width: 8px;
+            height: 8px;
+            background: #667eea;
+            border-radius: 50%;
+            animation: typing 1.4s infinite;
+        }
+
+        .typing-dots span:nth-child(2) {
+            animation-delay: 0.2s;
+        }
+
+        .typing-dots span:nth-child(3) {
+            animation-delay: 0.4s;
+        }
+
+        @keyframes typing {
+            0%, 60%, 100% {
+                transform: translateY(0);
+                opacity: 0.7;
+            }
+            30% {
+                transform: translateY(-10px);
+                opacity: 1;
+            }
+        }
+
+        .quick-replies {
+            display: flex;
+            gap: 8px;
+            flex-wrap: wrap;
+            margin-top: 10px;
+        }
+
+        .quick-reply-btn {
+            background: white;
+            border: 2px solid #667eea;
+            color: #667eea;
+            padding: 8px 16px;
+            border-radius: 20px;
+            cursor: pointer;
+            font-size: 0.85rem;
+            font-family: inherit;
+            transition: all 0.3s;
+            font-weight: 500;
+        }
+
+        .quick-reply-btn:hover {
+            background: #667eea;
+            color: white;
+            transform: translateY(-2px);
+        }
+
+        .chat-input-container {
+            padding: 20px;
+            background: white;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .chat-input {
+            display: flex;
+            gap: 10px;
+        }
+
+        .chat-input input {
+            flex: 1;
+            padding: 12px 16px;
+            border: 2px solid #e0e0e0;
+            border-radius: 25px;
+            font-size: 1rem;
+            font-family: inherit;
+            outline: none;
+            transition: border-color 0.3s;
+        }
+
+        .chat-input input:focus {
+            border-color: #667eea;
+        }
+
+        .send-btn {
+            width: 45px;
+            height: 45px;
+            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+            border: none;
+            border-radius: 50%;
+            color: white;
+            font-size: 1.2rem;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: transform 0.2s;
+        }
+
+        .send-btn:hover {
+            transform: scale(1.1);
+        }
+
+        .send-btn:disabled {
+            opacity: 0.5;
+            cursor: not-allowed;
+        }
+
+        /* Scrollbar personalizado */
+        .chat-messages::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .chat-messages::-webkit-scrollbar-track {
+            background: #f1f1f1;
+        }
+
+        .chat-messages::-webkit-scrollbar-thumb {
+            background: #667eea;
+            border-radius: 3px;
+        }
+    </style>
+</head>
+<body>
+    <div class="chat-container">
+        <div class="chat-header">
+            <div class="avatar">🤖</div>
+            <div class="header-info">
+                <h2>C4</h2>
+                <p>Tu Asistente de Ciberseguridad</p>
+            </div>
+        </div>
+
+        <div class="chat-messages" id="chatMessages">
+            <!-- Los mensajes aparecerán aquí -->
+        </div>
+
+        <div class="chat-input-container">
+            <div class="chat-input">
+                <input 
+                    type="text" 
+                    id="userInput" 
+                    placeholder="Escribe tu pregunta aquí..."
+                    autocomplete="off"
+                >
+                <button class="send-btn" id="sendBtn">
+                    ➤
+                </button>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        // Base de conocimientos de C4
+        const knowledgeBase = {
+            contraseñas: {
+                keywords: ['contraseña', 'password', 'clave', 'segura'],
+                response: `¡Excelente pregunta! 🔑 Las contraseñas seguras son tu primera línea de defensa. Aquí te doy los mejores consejos:
+
+✅ **Características de una buena contraseña:**
+• Mínimo 12 caracteres (¡mientras más larga, mejor!)
+• Mezcla de letras mayúsculas y minúsculas
+• Incluye números y símbolos especiales
+• Evita palabras del diccionario o datos personales
+
+💡 **Mi consejo top:** Usa un gestor de contraseñas como Bitwarden o LastPass. Así solo necesitas recordar UNA contraseña maestra.
+
+¿Quieres que te explique cómo crear una contraseña memorable pero segura?`
+            },
+            phishing: {
+                keywords: ['phishing', 'correo falso', 'email sospechoso', 'estafa'],
+                response: `¡Ojo con el phishing! 🎣 Es uno de los ataques más comunes. Te explico cómo detectarlo:
+
+🚨 **Señales de alerta:**
+• Remitente con dirección de correo extraña
+• Urgencia extrema ("¡Actúa YA o perderás tu cuenta!")
+• Enlaces sospechosos (pasa el mouse sin hacer clic para verlos)
+• Errores ortográficos o gramaticales
+• Te piden datos personales o contraseñas
+
+✅ **Qué hacer:**
+• Nunca hagas clic en enlaces sospechosos
+• Ve directamente al sitio web oficial escribiendo la URL
+• Verifica el remitente con la empresa por otros medios
+• Reporta el correo como spam
+
+Recuerda: Los bancos y empresas legítimas NUNCA te pedirán contraseñas por email. 🛡️`
+            },
+            '2fa': {
+                keywords: ['2fa', 'doble factor', 'autenticación', 'verificación dos pasos'],
+                response: `¡La autenticación de dos factores (2FA) es súper importante! 🔐
+
+**¿Qué es?**
+Es una capa extra de seguridad. Incluso si alguien tiene tu contraseña, no podrá entrar sin el segundo factor.
+
+**Tipos de 2FA:**
+1. 📱 Código por SMS (básico pero mejor que nada)
+2. 📲 Apps autenticadoras (Google Authenticator, Authy) - ¡Recomendado!
+3. 🔑 Llaves de seguridad físicas (el más seguro)
+
+**Dónde activarla:**
+• Email (Gmail, Outlook)
+• Redes sociales (Facebook, Instagram, Twitter)
+• Banca online
+• Servicios en la nube
+
+💪 Con 2FA activado, tu cuenta es 99.9% más segura. ¡Actívala hoy mismo!`
+            },
+            malware: {
+                keywords: ['malware', 'virus', 'troyano', 'ransomware', 'infectado'],
+                response: `El malware es software malicioso que puede dañar tu dispositivo. 🦠 Te explico:
+
+**Tipos principales:**
+• **Virus:** Se replica y daña archivos
+• **Ransomware:** Secuestra tus datos y pide rescate
+• **Spyware:** Te espía sin que lo sepas
+• **Troyanos:** Se disfrazan de programas legítimos
+
+**Cómo protegerte:**
+✅ Mantén tu antivirus actualizado
+✅ No descargues archivos de fuentes desconocidas
+✅ Actualiza tu sistema operativo regularmente
+✅ Haz copias de seguridad frecuentes
+✅ No abras archivos adjuntos sospechosos
+
+**Si crees que estás infectado:**
+1. Desconéctate de internet
+2. Ejecuta un análisis completo con tu antivirus
+3. Si es grave, busca ayuda profesional
+
+¡La prevención es la mejor cura! 🛡️`
+            },
+            vpn: {
+                keywords: ['vpn', 'privacidad', 'navegación anónima', 'wifi público'],
+                response: `¡Las VPNs son geniales para tu privacidad! 🌐
+
+**¿Qué hace una VPN?**
+Crea un "túnel" cifrado entre tu dispositivo e internet. Nadie puede ver lo que haces online.
+
+**Cuándo usarla:**
+• 📶 WiFi público (cafeterías, aeropuertos)
+• 🌍 Acceder a contenido de otras regiones
+• 🔒 Proteger tu privacidad de tu ISP
+• 💼 Trabajar de forma remota y segura
+
+**VPNs recomendadas:**
+• NordVPN
+• ExpressVPN
+• ProtonVPN (tiene versión gratuita)
+
+⚠️ **Importante:** Usa VPNs de empresas confiables. Las VPNs gratuitas dudosas pueden vender tus datos.
+
+¿Usas WiFi público a menudo? ¡Entonces necesitas una VPN!`
+            },
+            actualizaciones: {
+                keywords: ['actualizar', 'update', 'parche', 'versión'],
+                response: `¡Las actualizaciones son críticas! 🔄 Aquí te explico por qué:
+
+**¿Por qué actualizar?**
+• 🛡️ Corrigen vulnerabilidades de seguridad
+• 🐛 Eliminan errores y bugs
+• ✨ Mejoran el rendimiento
+• 🆕 Añaden nuevas funciones
+
+**Qué debes mantener actualizado:**
+✅ Sistema operativo (Windows, macOS, Linux)
+✅ Navegadores web
+✅ Antivirus
+✅ Aplicaciones y programas
+✅ Apps del teléfono
+
+**Consejo pro:**
+Activa las actualizaciones automáticas cuando sea posible. Así no tienes que preocuparte.
+
+⚠️ Muchos ataques exitosos ocurren porque alguien no actualizó su software. ¡No seas esa persona!
+
+Las actualizaciones pueden ser molestas, pero son tu mejor amigo en ciberseguridad. 💪`
+            },
+            redes_sociales: {
+                keywords: ['redes sociales', 'facebook', 'instagram', 'twitter', 'tiktok', 'privacidad'],
+                response: `¡Las redes sociales requieren cuidado especial! 📱
+
+**Configuración de privacidad:**
+• 🔒 Perfil privado (no público)
+• 👥 Acepta solo solicitudes de personas conocidas
+• 📍 Desactiva la ubicación en fotos
+• 🔕 Limita quién puede etiquetarte
+
+**Qué NO compartir:**
+❌ Dirección de casa
+❌ Número de teléfono personal
+❌ Datos de tarjetas o cuentas
+❌ Planes de vacaciones (antes de irte)
+❌ Fotos de documentos
+
+**Tips importantes:**
+• Revisa tus publicaciones antiguas
+• Cuidado con los quizzes y tests virales (roban datos)
+• Piensa dos veces antes de publicar
+• Usa 2FA en todas tus cuentas sociales
+
+Recuerda: Lo que publicas en internet, queda en internet. 🌐
+
+¿Quieres que revise contigo la configuración de alguna red social específica?`
+            },
+            copias: {
+                keywords: ['backup', 'copia de seguridad', 'respaldo', 'recuperar archivos'],
+                response: `¡Las copias de seguridad son vitales! 💾 Te cuento:
+
+**Regla 3-2-1:**
+3️⃣ Tres copias de tus datos
+2️⃣ En dos tipos de medios diferentes
+1️⃣ Una copia fuera de tu casa
+
+**Opciones de backup:**
+• ☁️ Nube: Google Drive, OneDrive, Dropbox
+• 💽 Disco duro externo
+• 🗄️ NAS (almacenamiento en red)
+
+**Qué respaldar:**
+✅ Documentos importantes
+✅ Fotos y videos familiares
+✅ Archivos de trabajo
+✅ Configuraciones importantes
+
+**Frecuencia:**
+• Archivos críticos: diaria
+• Documentos: semanal
+• Fotos: mensual
+
+💡 **Automatiza:** Configura backups automáticos para no olvidarte.
+
+Con backups, el ransomware no te asusta. Si secuestran tus archivos, ¡simplemente los restauras! 😎`
+            }
+        };
+
+        const quickReplies = [
+            '¿Cómo crear contraseñas seguras?',
+            '¿Qué es el phishing?',
+            'Información sobre 2FA',
+            '¿Cómo protegerme del malware?'
+        ];
+
+        class C4Chatbot {
+            constructor() {
+                this.chatMessages = document.getElementById('chatMessages');
+                this.userInput = document.getElementById('userInput');
+                this.sendBtn = document.getElementById('sendBtn');
+                this.messageHistory = [];
+                
+                this.init();
+            }
+
+            init() {
+                this.sendBtn.addEventListener('click', () => this.sendMessage());
+                this.userInput.addEventListener('keypress', (e) => {
+                    if (e.key === 'Enter') this.sendMessage();
+                });
+
+                this.showWelcomeMessage();
+            }
+
+            showWelcomeMessage() {
+                setTimeout(() => {
+                    const welcomeMsg = `¡Hola! 👋 Soy **C4**, tu asistente personal de ciberseguridad.
+
+Estoy aquí para ayudarte a protegerte en el mundo digital. Puedo responder preguntas sobre:
+
+🔐 Contraseñas seguras
+🎣 Phishing y estafas
+🦠 Virus y malware
+🌐 Navegación segura
+📱 Privacidad en redes sociales
+🔒 Y mucho más...
+
+¿En qué puedo ayudarte hoy?`;
+                    
+                    this.addMessage(welcomeMsg, 'bot');
+                    this.showQuickReplies();
+                }, 500);
+            }
+
+            showQuickReplies() {
+                const quickRepliesDiv = document.createElement('div');
+                quickRepliesDiv.className = 'quick-replies';
+                
+                quickReplies.forEach(reply => {
+                    const btn = document.createElement('button');
+                    btn.className = 'quick-reply-btn';
+                    btn.textContent = reply;
+                    btn.onclick = () => {
+                        this.userInput.value = reply;
+                        this.sendMessage();
+                    };
+                    quickRepliesDiv.appendChild(btn);
+                });
+
+                this.chatMessages.appendChild(quickRepliesDiv);
+                this.scrollToBottom();
+            }
+
+            sendMessage() {
+                const message = this.userInput.value.trim();
+                if (!message) return;
+
+                this.addMessage(message, 'user');
+                this.userInput.value = '';
+                
+                this.showTypingIndicator();
+                
+                setTimeout(() => {
+                    this.hideTypingIndicator();
+                    const response = this.generateResponse(message);
+                    this.addMessage(response, 'bot');
+                }, 1500 + Math.random() * 1000);
+            }
+
+            generateResponse(userMessage) {
+                const lowerMessage = userMessage.toLowerCase();
+                
+                // Buscar coincidencias en la base de conocimientos
+                for (const [topic, data] of Object.entries(knowledgeBase)) {
+                    if (data.keywords.some(keyword => lowerMessage.includes(keyword))) {
+                        return data.response;
+                    }
+                }
+
+                // Respuestas para casos especiales
+                if (lowerMessage.includes('hola') || lowerMessage.includes('buenos días') || lowerMessage.includes('buenas tardes')) {
+                    return '¡Hola! 😊 ¿En qué tema de ciberseguridad te gustaría que te ayude hoy?';
+                }
+
+                if (lowerMessage.includes('gracias')) {
+                    return '¡De nada! 😊 Estoy aquí para ayudarte. Si tienes más preguntas sobre seguridad digital, no dudes en preguntar. ¡Mantente seguro! 🛡️';
+                }
+
+                if (lowerMessage.includes('adiós') || lowerMessage.includes('chau')) {
+                    return '¡Hasta pronto! 👋 Recuerda mantener tus dispositivos actualizados y usar contraseñas seguras. ¡Cuídate en el mundo digital! 🔒';
+                }
+
+                // Respuesta por defecto
+                return `Hmm, esa es una buena pregunta. 🤔 
+
+Soy experto en temas de ciberseguridad como:
+• Contraseñas y autenticación
+• Phishing y estafas online
+• Malware y virus
+• Privacidad en redes sociales
+• VPNs y navegación segura
+• Copias de seguridad
+
+¿Puedes reformular tu pregunta enfocándote en alguno de estos temas? Estoy aquí para ayudarte. 💪`;
+            }
+
+            addMessage(text, type) {
+                const messageDiv = document.createElement('div');
+                messageDiv.className = `message ${type}`;
+
+                if (type === 'bot') {
+                    const avatar = document.createElement('div');
+                    avatar.className = 'message-avatar';
+                    avatar.textContent = '🤖';
+                    messageDiv.appendChild(avatar);
+                }
+
+                const content = document.createElement('div');
+                content.className = 'message-content';
+                content.innerHTML = this.formatMessage(text);
+                messageDiv.appendChild(content);
+
+                if (type === 'user') {
+                    const avatar = document.createElement('div');
+                    avatar.className = 'message-avatar';
+                    avatar.textContent = '👤';
+                    messageDiv.appendChild(avatar);
+                }
+
+                this.chatMessages.appendChild(messageDiv);
+                this.scrollToBottom();
+            }
+
+            formatMessage(text) {
+                // Convertir markdown simple
+                text = text.replace(/\*\*(.*?)\*\*/g, '<strong>$1</strong>');
+                text = text.replace(/\n/g, '<br>');
+                return text;
+            }
+
+            showTypingIndicator() {
+                const indicator = document.createElement('div');
+                indicator.className = 'message bot';
+                indicator.id = 'typing-indicator';
+                
+                const avatar = document.createElement('div');
+                avatar.className = 'message-avatar';
+                avatar.textContent = '🤖';
+                
+                const typingDiv = document.createElement('div');
+                typingDiv.className = 'typing-indicator active';
+                typingDiv.innerHTML = '<div class="typing-dots"><span></span><span></span><span></span></div>';
+                
+                indicator.appendChild(avatar);
+                indicator.appendChild(typingDiv);
+                this.chatMessages.appendChild(indicator);
+                this.scrollToBottom();
+            }
+
+            hideTypingIndicator() {
+                const indicator = document.getElementById('typing-indicator');
+                if (indicator) indicator.remove();
+            }
+
+            scrollToBottom() {
+                this.chatMessages.scrollTop = this.chatMessages.scrollHeight;
+            }
+        }
+
+        // Inicializar el chatbot
+        const c4 = new C4Chatbot();
+    </script>
+</body>
+</html>

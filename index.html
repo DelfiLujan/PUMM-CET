@@ -225,7 +225,42 @@
             </div>
         </section>
     </main>
+<!-- Botón flotante -->
+<button id="c4-toggle" style="
+    position: fixed;
+    bottom: 20px;
+    right: 20px;
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    border: none;
+    font-size: 30px;
+    cursor: pointer;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+    z-index: 9999;
+">🤖</button>
 
+<!-- Iframe del chatbot (inicialmente oculto) -->
+<iframe id="c4-iframe" src="c4-chatbot.html" style="
+    position: fixed;
+    bottom: 90px;
+    right: 20px;
+    width: 400px;
+    height: 600px;
+    border: none;
+    border-radius: 20px;
+    box-shadow: 0 10px 40px rgba(0,0,0,0.3);
+    z-index: 9998;
+    display: none;
+"></iframe>
+
+<script>
+document.getElementById('c4-toggle').addEventListener('click', function() {
+    const iframe = document.getElementById('c4-iframe');
+    iframe.style.display = iframe.style.display === 'none' ? 'block' : 'none';
+});
+</script>
     <script src="script.js"></script>
 </body>
 </html>
