@@ -214,28 +214,7 @@ function generatePasswordSuggestions(password) {
     return suggestions;
 }
 
-// Tips toggle functionality
-function toggleTip(tipId) {
-    const tipContent = document.getElementById(tipId);
-    const tipButton = tipContent.parentElement;
-    
-    // Close all other tips
-    document.querySelectorAll('.tip-content').forEach(tip => {
-        if (tip.id !== tipId) {
-            tip.classList.remove('active');
-            tip.parentElement.classList.remove('active');
-        }
-    });
-    
-    // Toggle current tip
-    if (tipContent.classList.contains('active')) {
-        tipContent.classList.remove('active');
-        tipButton.classList.remove('active');
-    } else {
-        tipContent.classList.add('active');
-        tipButton.classList.add('active');
-    }
-}
+/* Quité la correccion toggle porque causa error en una función de movimiento, la sección de consejos rápidos queda estática.*/
 
 // Mobile navigation toggle (if you add a hamburger menu later)
 function toggleMobileNav() {
